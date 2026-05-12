@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directorio - Santa Rosa de Osos</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #F8FAF5; }
+        .encabezado { background: #0A5F26; color: white; padding: 2rem; text-align: center; }
+        .encabezado h1 { margin-bottom: 0.5rem; }
+        .botones-opcion { display: flex; gap: 2rem; justify-content: center; padding: 3rem; flex-wrap: wrap; }
+        .boton-opcion {
+            width: 300px;
+            padding: 2rem;
+            border-radius: 15px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: 0.3s;
+            border: 3px solid #0A5F26;
+        }
+        .boton-comerciantes { background: #D4AF37; color: #0A5F26; }
+        .boton-comerciantes:hover { background: #B8962F; transform: scale(1.05); }
+        .boton-cliente { background: white; color: #0A5F26; }
+        .boton-cliente:hover { background: #E8F5E9; transform: scale(1.05); }
+
+        /* ESTILO PARA COMERCIANTES PREMIUM */
+        .tarjeta-comerciante {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tarjeta-premium {
+            border: 3px solid #D4AF37;
+            background: linear-gradient(to right, #FFFDE7, #FFFFFF);
+        }
+        .cabecera-comerciante {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .foto-comercio {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0A5F26;
+        }
+        .nombre-comercio {
+            font-size: 1.5rem;
+            color: #0A5F26;
+            font-weight: bold;
+        }
+        .categoria-comercio {
+            color: #666;
+            margin-top: 0.3rem;
+        }
+        .insignia-premium {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            margin-left: 1rem;
+            border: 1px solid #D4AF37;
+        }
+        .boton-contacto {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .boton-contacto:hover { background: #128C7E; }
+        .boton-volver {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: #0A5F26;
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="boton-volver">← Volver</a>
+
+    <div class="encabezado">
+        <h1>📁 Directorio de Negocios</h1>
+        <p>Encuentra y contacta con todos los comercios de Santa Rosa de Osos</p>
+    </div>
+
+    <!-- OPCIONES PRINCIPALES DEL DIRECTORIO -->
+    <div class="botones-opcion">
+        <a href="comerciantes.html" class="boton-opcion boton-comerciantes">🏪 Lista de Comerciantes</a>
+        <a href="cliente.html" class="boton-opcion boton-cliente">👤 Ver como Cliente</a>
+    </div>
+</body>
+</html>
