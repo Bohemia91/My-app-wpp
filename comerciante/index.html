@@ -132,5 +132,59 @@
 
             const boton = document.getElementById('botonEnviar');
             boton.disabled = true;
-            boton.textContent = 'En
-      
+            boton.textContent = 'Enviando...';
+
+            const datosComercio = {
+                numero_wpp: document.getElementById('numeroWpp').value,
+                nombre_comercio: document.getElementById('nombreComercio').value,
+                nombre_contacto: document.getElementById('nombreContacto').value,
+                titulo_oferta: document.getElementById('tituloOferta').value,
+                descripcion: document.getElementById('descripcion').value,
+                categoria: document.getElementById('categoria').value,
+                fecha_vigencia: document.getElementById('fechaVigencia').value,
+                tipo_publicacion: document.getElementById('tipoPublicacion').value,
+                fecha_registro: new Date().toISOString(),
+                estado_aprobacion: 'pendiente',
+                plan_actual: document.getElementById('tipoPublicacion').value === 'gratis' ? 'gratis' : 'pagado'
+            };
+
+            try {
+                const respuesta = await fetch(`${CONFIG.pagos.urlApi}/comercios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosComercio)
+                });
+
+                if(respuesta.ok) {
+                    await fetch(`${CONFIG.pagos.urlApi}/registros`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tipo_accion: 'Nueva oferta de comercio',
+                            numero_responsable: datosComercio.numero_wpp,
+                            detalles: `Oferta: ${datosComercio.titulo_oferta} - Categoría: ${datosComercio.categoria}`,
+                            fecha: new Date().toISOString()
+                        })
+                    });
+
+                    alert('¡Tu oferta se ha enviado correctamente! Espera a que sea aprobada para aparecer en la aplicación.');
+                    document.getElementById('formComercio').reset();
+                } else {
+                    throw new Error('Ocurrió un error al enviar los datos');
+                }
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                boton.disabled = false;
+                boton.textContent = 'Enviar oferta para revisión';
+            }
+        });
+
+        function obtenerNumeroWppDelAcceso() {
+            return "+57 300 000 0000";
+        }
+    </script>
+</body>
+                </html>
+    
