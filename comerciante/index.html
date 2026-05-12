@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Comerciantes</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        header { background: #f59e0b; color: white; padding: 1rem; text-align: center; }
+        form { max-width: 550px; margin: 2rem auto; padding: 2rem; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .campo { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 1rem; }
+        .campo-desactivado { background: #f3f4f6; color: #6b7280; cursor: not-allowed; }
+        button { background: #2563eb; color: white; border: none; padding: 1rem; width: 100%; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+        button:disabled { background: #93c5fd; cursor: not-allowed; }
+        .mensaje { padding: 1rem; border-radius: 4px; margin: 1rem 0; text-align: center; }
+        .aviso-regla { background: #dbeafe; color: #1e40af; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; }
+        .exito { background: #dcfce7; color: #166534; }
+        .error { background: #fecaca; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Área de Comerciantes</h1>
+        <p>Publica tus ofertas y promociones</p>
+    </header>
+
+    <div class="aviso-regla">
+        <strong>Importante:</strong> Tu número de WhatsApp es tu identificación única y <strong>no se puede cambiar</strong>. 
+        Una vez registrado, este número quedará asociado permanentemente a tu comercio y será el que usen tus clientes para contactarte.
+    </div>
+
+    <form id="formComercio">
+        <div class="campo">
+            <label>Número de WhatsApp de tu comercio</label>
+            <input type="tel" id="numeroWpp" placeholder="+57 300 000 0000" required class="campo-desactivado" readonly>
+            <small>Este número no se puede modificar</small>
+        </div>
+
+        <div class="campo">
+            <label>Nombre del comercio</label>
+            <input type="text" id="nombreComercio" placeholder="Nombre de tu negocio" required>
+        </div>
+
+        <div class="campo">
+            <label>Nombre de contacto (opcional)</label>
+            <input type="text" id="nombreContacto" placeholder="Persona responsable del negocio">
+        </div>
+
+        <div class="campo">
+            <label>Título de la oferta</label>
+            <input type="text" id="tituloOferta" placeholder="Ej: Descuento del 20% en comidas" required>
+        </div>
+
+        <div class="campo">
+            <label>Descripción de la oferta</label>
+            <textarea id="descripcion" rows="4" placeholder="Explica qué incluye la oferta, condiciones, fechas, etc." required></textarea>
+        </div>
+
+        <div class="campo">
+            <label>Categoría</label>
+            <select id="categoria" required>
+                <option value="">Selecciona una categoría</option>
+                <option value="comidas">Comidas y bebidas</option>
+                <option value="articulos">Artículos y productos</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Imagen de la oferta</label>
+            <input type="file" id="imagenOferta" accept="image/*" required>
+        </div>
+
+        <div class="campo">
+            <label>Fecha de vigencia de la oferta</label>
+            <input type="date" id="fechaVigencia" required>
+        </div>
+
+        <div class="campo">
+            <label>Tipo de publicación</label>
+            <select id="tipoPublicacion" onchange="mostrarInformacionTipo()">
+                <option value="gratis">Gratis (primer mes)</option>
+                <option value="pagada">Membresía pagada $30.000/mes</option>
+            </select>
+        </div>
+
+        <div id="informacionTipo" class="mensaje" style="display: none;"></div>
+
+        <div class="mensaje" style="background: #fef3c7; color: #92400e;">
+            Todas las ofertas se revisarán y aprobarán por el administrador antes de aparecer en la aplicación.
+        </div>
+
+        <button type="submit" id="botonEnviar">Enviar oferta para revisión</button>
+    </form>
+
+    <script src="../config/configuracion.js"></script>
+    <script>
+        window.onload = () => {
+            const numeroRegistrado = obtenerNumeroWppDelAcceso();
+            document.getElementById('numeroWpp').value = numeroRegistrado;
+        };
+
+        function mostrarInformacionTipo() {
+            const tipo = document.getElementById('tipoPublicacion').value;
+            const divInfo = document.getElementById('informacionTipo');
+
+            if(tipo === 'gratis') {
+                divInfo.style.display = 'block';
+                divInfo.className = 'mensaje exito';
+                divInfo.innerHTML = `
+                    <strong>Plan gratuito:</strong><br>
+                    ✅ Primer mes sin costo<br>
+                    ✅ Puedes publicar hasta ${CONFIG.maxOfertasGratisPorDia} oferta por día<br>
+                    ⚠️ Después del mes gratis deberás pagar $30.000 mensuales para seguir publicando
+                `;
+            } else {
+                divInfo.style.display = 'block';
+                divInfo.className = 'mensaje error';
+                divInfo.innerHTML = `
+                    <strong>Plan pagado:</strong><br>
+                    💲 Costo: $${CONFIG.precioMembresia} COP por mes<br>
+                    ✅ Publicaciones ilimitadas<br>
+                    ✅ Aparecerás en posiciones destacadas<br>
+                    Paga aquí para activar tu membresía
+                `;
+            }
+        }
+
+        document.getElementById('formComercio').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const boton = document.getElementById('botonEnviar');
+            boton.disabled = true;
+            boton.textContent = 'En
+      
