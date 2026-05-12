@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        header { background: #10b981; color: white; padding: 1rem; text-align: center; }
+        .contenedor { max-width: 1200px; margin: 2rem auto; padding: 1rem; }
+        .tarjeta { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; background: white; }
+        .estado-pendiente { background: #fef3c7; color: #92400e; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
+        .estado-aprobado { background: #dcfce7; color: #166534; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
+        .boton { padding: 0.6rem 1.2rem; border: none; border-radius: 4px; cursor: pointer; margin: 0.3rem; }
+        .btn-aprobar { background: #10b981; color: white; }
+        .btn-rechazar { background: #ef4444; color: white; }
+        .btn-eliminar { background: #6b7280; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f3f4f6; }
+        .contraseña { max-width: 300px; margin: 2rem auto; text-align: center; }
+        input { padding: 0.7rem; width: 100%; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚙️ Panel de Administrador</h1>
+        <p>Control total de la aplicación</p>
+    </header>
+
+    <div class="contraseña" id="areaAcceso">
+        <h3>Ingresa contraseña de acceso</h3>
+        <input type="password" id="claveAdmin" placeholder="Escribe tu contraseña">
+        <button class="boton btn-aprobar" onclick="verificarAcceso()">Entrar al panel</button>
+    </div>
+
+    <div class="contenedor" id="panelPrincipal" style="display: none;">
+        <div class="tarjeta">
+            <h2>📋 Ofertas pendientes de aprobación</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comercio</th>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="listaPendientes">
+                    <tr><td colspan="5">Cargando ofertas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tarjeta">
+            <h2>🏪 Gestión de Comercios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>WhatsApp</th>
+                        <th>Plan</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="listaComercios">
+                    <tr><td colspan="5">Cargando comercios...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tarjeta">
+            <h2>💳 Pagos y Membresías</h2>
+            <p>Total ganado este mes: <strong>$ 0 COP</strong></p>
+            <button class="boton btn-aprobar">Ver reporte completo</button>
+        </div>
+    </div>
+
+    <script src="../config/configuracion.js"></script>
+    <script>
+        const CLAVE_ADMIN = "admin1234"; // Puedes cambiar esta contraseña
+
+        function verificarAcceso() {
+            const clave = document.getElementById('claveAdmin').value;
+            if (clave === CLAVE_ADMIN) {
+                document.getElementById('areaAcceso').style.display = 'none';
+                document.getElementById('panelPrincipal').style.display = 'block';
+                cargarDatos();
+            } else {
+                alert("❌ Contraseña incorrecta");
+            }
+        }
+
+        function cargarDatos() {
+            fetch(`${CONFIG.pagos.urlApi}/ofertas?estado=pendiente`)
+            .then(res => res.json())
+            .then(ofertas => {
+                const tabla = document.getElementById('listaPendientes');
+                tabla.innerHTML = "";
+                ofertas.forEach(oferta => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${oferta.nombre_comercio || 'Sin nombre'}</td>
+                        <td>${oferta.titulo}</td>
+                        <td>${oferta.categoria}</td>
+                        <td><span class="estado-pendiente">Pendiente</span></td>
+                        <td>
+                            <button class="boton btn-aprobar" onclick="aprobarOferta('${oferta.id_oferta}')">Aprobar</button>
+                            <button class="boton btn-rechazar" onclick="rechazarOferta('${oferta.id_oferta}')">Rechazar</button>
+                        </td>
+                    `;
+                    tabla.appendChild(fila);
+                });
+            });
+
+            fetch(`${CONFIG.pagos.urlApi}/comercios`)
+            .then(res => res.json())
+            .then(comercios => {
+                const tabla = document.getElementById('listaComercios');
+                tabla.innerHTML = "";
+                comercios.forEach(com => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${com.nombre_comercio}</td>
+                        <td>${com.numero_wpp}</td>
+                        <td>${com.plan_actual || 'Gratis'}</td>
+                        <td><span class="estado-aprobado">Activo</span></td>
+                        <td>
+                            <button class="boton btn-eliminar" onclick="suspenderComercio('${com.numero_wpp}')">Suspender</button>
+                        </td>
+                    `;
+                    tabla.appendChild(fila);
+                });
+            });
+        }
+
+        function aprobarOferta(id) {
+            fetch(`${CONFIG.pagos.urlApi}/ofertas/${id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({estado: 'aprobado'})
+            }).then(() => {
+                alert("✅ Oferta aprobada");
+                cargarDatos();
+            });
+        }
+
+        function rechazarOferta(id) {
+            if(confirm("¿Rechazar esta oferta?")) {
+                fetch(`${CONFIG.pagos.urlApi}/ofertas/${id}`, {method: 'DELETE'})
+                .then(() => { cargarDatos(); });
+            }
+        }
+
+        function suspenderComercio(numero) {
+            if(confirm("¿Suspender este comercio? No podrá publicar más.")) {
+                fetch(`${CONFIG.pagos.urlApi}/comercios/${numero}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({activo: false})
+                }).then(() => { cargarDatos(); });
+            }
+        }
+    </script>
+</body>
+</html>
