@@ -6,10 +6,37 @@
     <title>Ofertas - Santa Rosa de Osos</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        header { background: #0A5F26; color: white; padding: 1.5rem; text-align: center; }
-        .categorias { display: flex; gap: 1rem; padding: 1rem; overflow-x: auto; background: white; }
-        .categoria { padding: 0.8rem 1.5rem; background: #F0F0F0; border-radius: 8px; cursor: pointer; color: #0A5F26; font-weight: bold; }
-        .categoria.activa { background: #D4AF37; color: #0A5F26; }
+        header { background: #0A5F26; color: white; padding: 1.2rem; text-align: center; }
+        
+        /* CATEGORÍAS: AJUSTADAS PARA CABER TODAS EN UNA SOLA LÍNEA */
+        .categorias { 
+            display: flex; 
+            gap: 0.5rem; 
+            padding: 0.8rem; 
+            background: white; 
+            justify-content: center;
+            flex-wrap: nowrap; /* Que no se bajen de línea */
+            overflow-x: auto; /* Solo por si acaso en pantallas muy chicas, pero intentamos que quepan */
+        }
+        .categoria { 
+            padding: 0.6rem 0.9rem; 
+            background: #F0F0F0; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: #0A5F26; 
+            font-weight: bold;
+            font-size: 0.8rem; /* Tamaño de letra reducido */
+            white-space: nowrap; /* Que el texto no se parta */
+            transition: 0.3s;
+        }
+        .categoria.activa { 
+            background: #D4AF37; 
+            color: #0A5F26; 
+        }
+        .categoria:hover {
+            transform: scale(1.03);
+        }
+
         .lista-ofertas { padding: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         .oferta { border: 2px solid #E0E0E0; border-radius: 12px; padding: 1.5rem; background: white; }
         .perfil-usuario { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
@@ -30,16 +57,23 @@
         <p>Santa Rosa de Osos</p>
     </header>
 
+    <!-- CATEGORÍAS CON TAMAÑO AJUSTADO -->
     <div class="categorias">
         <div class="categoria activa" onclick="filtrarOfertas('todas')">Todas</div>
-        <div class="categoria" onclick="filtrarOfertas('alimentos')">Alimentos</div>
-        <div class="categoria" onclick="filtrarOfertas('comidas')">Comidas</div>
-        <div class="categoria" onclick="filtrarOfertas('articulos')">Artículos</div>
+        <div class="categoria" onclick="filtrarOfertas('tecnologia')">Tecnología</div>
+        <div class="categoria" onclick="filtrarOfertas('comida')">Comida</div>
+        <div class="categoria" onclick="filtrarOfertas('mercado')">Mercado</div>
+        <div class="categoria" onclick="filtrarOfertas('transporte')">Transporte</div>
+        <div class="categoria" onclick="filtrarOfertas('salud')">Salud</div>
+        <div class="categoria" onclick="filtrarOfertas('hogar')">Hogar</div>
+        <div class="categoria" onclick="filtrarOfertas('moda')">Moda</div>
+        <div class="categoria" onclick="filtrarOfertas('agricultura')">Agricultura</div>
+        <div class="categoria" onclick="filtrarOfertas('servicios')">Servicios</div>
     </div>
 
     <div id="listaOfertas" class="lista-ofertas">
-        <!-- PRIMERA PROMOCIÓN: COLANTA -->
-        <div class="oferta" data-categoria="alimentos">
+        <!-- EJEMPLO 1: MERCADO -->
+        <div class="oferta" data-categoria="mercado">
             <div class="perfil-usuario">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Colanta_logo.svg/1200px-Colanta_logo.svg.png" alt="Colanta" class="foto-perfil">
                 <div>
@@ -55,36 +89,54 @@
             <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
         </div>
 
-        <!-- OTRAS OFERTAS DE EJEMPLO -->
-        <div class="oferta" data-categoria="alimentos">
+        <!-- EJEMPLO 2: TECNOLOGÍA -->
+        <div class="oferta" data-categoria="tecnologia">
             <div class="perfil-usuario">
-                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Tienda" class="foto-perfil">
+                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Tecnología" class="foto-perfil">
                 <div>
-                    <div class="nombre-comercio">Tienda El Progreso</div>
-                    <div style="font-size: 0.8rem; color: #666;">Alimentos y Bebidas</div>
+                    <div class="nombre-comercio">TecnoCentro Osos</div>
+                    <div style="font-size: 0.8rem; color: #666;">Reparación y Venta de Equipos</div>
                 </div>
             </div>
-            <h3>Arroz Premium 1kg</h3>
-            <p>Arroz de primera calidad, libre de impurezas y muy rico.</p>
-            <p class="descuento">🔥 15% de DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $4.500 COP</p>
-            <p class="precio-final">Precio final: $3.825 COP</p>
+            <h3>Celular con descuento especial</h3>
+            <p>Equipos nuevos y seminuevos con garantía y servicio técnico.</p>
+            <p class="descuento">🔥 15% DE DESCUENTO 🔥</p>
+            <p class="precio-normal">Precio normal: $850.000 COP</p>
+            <p class="precio-final">Precio final: $722.500 COP</p>
             <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
         </div>
 
-        <div class="oferta" data-categoria="comidas">
+        <!-- EJEMPLO 3: MODA -->
+        <div class="oferta" data-categoria="moda">
             <div class="perfil-usuario">
-                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Restaurante" class="foto-perfil">
+                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Moda" class="foto-perfil">
                 <div>
-                    <div class="nombre-comercio">Restaurante Sabor Campesino</div>
-                    <div style="font-size: 0.8rem; color: #666;">Comidas Típicas</div>
+                    <div class="nombre-comercio">Tienda Estilo</div>
+                    <div style="font-size: 0.8rem; color: #666;">Ropa y Accesorios</div>
                 </div>
             </div>
-            <h3>Almuerzo Completo</h3>
-            <p>Plato fuerte, ensalada, bebida y postre por un precio increíble.</p>
-            <p class="descuento">🔥 20% de DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $18.000 COP</p>
-            <p class="precio-final">Precio final: $14.400 COP</p>
+            <h3>Conjuntos completos para toda la familia</h3>
+            <p>Prendas de buena calidad, cómodas y a buen precio.</p>
+            <p class="descuento">🔥 20% DE DESCUENTO 🔥</p>
+            <p class="precio-normal">Precio normal: $60.000 COP</p>
+            <p class="precio-final">Precio final: $48.000 COP</p>
+            <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
+        </div>
+
+        <!-- EJEMPLO 4: SERVICIOS -->
+        <div class="oferta" data-categoria="servicios">
+            <div class="perfil-usuario">
+                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Servicios" class="foto-perfil">
+                <div>
+                    <div class="nombre-comercio">Servicios Integrales Osos</div>
+                    <div style="font-size: 0.8rem; color: #666;">Soluciones para el hogar y empresa</div>
+                </div>
+            </div>
+            <h3>Reparaciones y mantenimiento general</h3>
+            <p>Servicios rápidos, seguros y con garantía de calidad.</p>
+            <p class="descuento">🔥 10% DE DESCUENTO 🔥</p>
+            <p class="precio-normal">Precio normal: $30.000 COP</p>
+            <p class="precio-final">Precio final: $27.000 COP</p>
             <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
         </div>
     </div>
