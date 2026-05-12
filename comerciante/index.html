@@ -3,188 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área de Comerciantes</title>
+    <title>Comerciantes - Directorio</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        header { background: #f59e0b; color: white; padding: 1rem; text-align: center; }
-        form { max-width: 550px; margin: 2rem auto; padding: 2rem; border: 1px solid #e2e8f0; border-radius: 8px; }
-        .campo { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 1rem; }
-        .campo-desactivado { background: #f3f4f6; color: #6b7280; cursor: not-allowed; }
-        button { background: #2563eb; color: white; border: none; padding: 1rem; width: 100%; border-radius: 4px; cursor: pointer; font-size: 1rem; }
-        button:disabled { background: #93c5fd; cursor: not-allowed; }
-        .mensaje { padding: 1rem; border-radius: 4px; margin: 1rem 0; text-align: center; }
-        .aviso-regla { background: #dbeafe; color: #1e40af; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; }
-        .exito { background: #dcfce7; color: #166534; }
-        .error { background: #fecaca; color: #991b1b; }
+        body { background-color: #F8FAF5; }
+        .encabezado { background: #0A5F26; color: white; padding: 2rem; text-align: center; }
+        .boton-volver {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: #0A5F26;
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* BOTON DE PREMIUM */
+        .seccion-premium {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border: 2px solid #D4AF37;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .titulo-premium { color: #8B4513; font-size: 1.5rem; margin-bottom: 1rem; }
+        .lista-beneficios { text-align: left; margin: 1.5rem 0; line-height: 1.8; }
+        .lista-beneficios li { margin: 0.5rem 0; color: #333; }
+        .boton-adquirir {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 2px solid #D4AF37;
+            transition: 0.3s;
+        }
+        .boton-adquirir:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+
+        /* ESTILO DE TARJETAS */
+        .contenedor-tarjetas { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .titulo-seccion { text-align: center; color: #0A5F26; margin-bottom: 2rem; font-size: 1.5rem; }
+        
+        .tarjeta-comerciante {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .tarjeta-premium {
+            border: 3px solid #D4AF37;
+            background: linear-gradient(to right, #FFFDE7, #FFFFFF);
+        }
+        .cabecera {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .foto {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0A5F26;
+        }
+        .nombre {
+            font-size: 1.4rem;
+            color: #0A5F26;
+            font-weight: bold;
+        }
+        .categoria { color: #666; margin: 0.3rem 0; }
+        .insignia {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            margin-left: 1rem;
+            border: 1px solid #D4AF37;
+        }
+        .descripcion { color: #444; margin: 1rem 0; line-height: 1.6; }
+        .boton-wpp {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .boton-wpp:hover { background: #128C7E; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Área de Comerciantes</h1>
-        <p>Publica tus ofertas y promociones</p>
-    </header>
+    <a href="index.html" class="boton-volver">← Volver al Directorio</a>
 
-    <div class="aviso-regla">
-        <strong>Importante:</strong> Tu número de WhatsApp es tu identificación única y <strong>no se puede cambiar</strong>. 
-        Una vez registrado, este número quedará asociado permanentemente a tu comercio y será el que usen tus clientes para contactarte.
+    <div class="encabezado">
+        <h1>🏪 Lista de Comerciantes</h1>
+        <p>Encuentra todo lo que necesitas en un solo lugar</p>
     </div>
 
-    <form id="formComercio">
-        <div class="campo">
-            <label>Número de WhatsApp de tu comercio</label>
-            <input type="tel" id="numeroWpp" placeholder="+57 300 000 0000" required class="campo-desactivado" readonly>
-            <small>Este número no se puede modificar</small>
-        </div>
+    <!-- SECCION DE MEMBRESIA PREMIUM -->
+    <div class="seccion-premium">
+        <h2 class="titulo-premium">✨ Conviértete en Comerciante Premium ✨</h2>
+        <p>Destaca tu negocio y alcanza más clientes</p>
+        
+        <ul class="lista-beneficios">
+            <li>✅ Te conviertes en un negocio destacado en todas las listas</li>
+            <li>✅ Puedes hacer hasta 3 publicaciones promocionales cada día</li>
+            <li>✅ Tu negocio aparecerá en la lista especial dentro del directorio</li>
+            <li>✅ Llegas a más personas y aumentas tus ventas</li>
+        </ul>
 
-        <div class="campo">
-            <label>Nombre del comercio</label>
-            <input type="text" id="nombreComercio" placeholder="Nombre de tu negocio" required>
-        </div>
+        <a href="#" class="boton-adquirir">Adquirir Membresía Premium</a>
+    </div>
 
-        <div class="campo">
-            <label>Nombre de contacto (opcional)</label>
-            <input type="text" id="nombreContacto" placeholder="Persona responsable del negocio">
-        </div>
+    <!-- EJEMPLOS DE COMERCIANTES PREMIUM Y NORMALES -->
+    <div class="contenedor-tarjetas">
+        <h2 class="titulo-seccion">📋 Todos los Negocios</h2>
 
-        <div class="campo">
-            <label>Título de la oferta</label>
-            <input type="text" id="tituloOferta" placeholder="Ej: Descuento del 20% en comidas" required>
-        </div>
-
-        <div class="campo">
-            <label>Descripción de la oferta</label>
-            <textarea id="descripcion" rows="4" placeholder="Explica qué incluye la oferta, condiciones, fechas, etc." required></textarea>
-        </div>
-
-        <div class="campo">
-            <label>Categoría</label>
-            <select id="categoria" required>
-                <option value="">Selecciona una categoría</option>
-                <option value="comidas">Comidas y bebidas</option>
-                <option value="articulos">Artículos y productos</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label>Imagen de la oferta</label>
-            <input type="file" id="imagenOferta" accept="image/*" required>
-        </div>
-
-        <div class="campo">
-            <label>Fecha de vigencia de la oferta</label>
-            <input type="date" id="fechaVigencia" required>
-        </div>
-
-        <div class="campo">
-            <label>Tipo de publicación</label>
-            <select id="tipoPublicacion" onchange="mostrarInformacionTipo()">
-                <option value="gratis">Gratis (primer mes)</option>
-                <option value="pagada">Membresía pagada $30.000/mes</option>
-            </select>
-        </div>
-
-        <div id="informacionTipo" class="mensaje" style="display: none;"></div>
-
-        <div class="mensaje" style="background: #fef3c7; color: #92400e;">
-            Todas las ofertas se revisarán y aprobarán por el administrador antes de aparecer en la aplicación.
-        </div>
-
-        <button type="submit" id="botonEnviar">Enviar oferta para revisión</button>
-    </form>
-
-    <script src="../config/configuracion.js"></script>
-    <script>
-        window.onload = () => {
-            const numeroRegistrado = obtenerNumeroWppDelAcceso();
-            document.getElementById('numeroWpp').value = numeroRegistrado;
-        };
-
-        function mostrarInformacionTipo() {
-            const tipo = document.getElementById('tipoPublicacion').value;
-            const divInfo = document.getElementById('informacionTipo');
-
-            if(tipo === 'gratis') {
-                divInfo.style.display = 'block';
-                divInfo.className = 'mensaje exito';
-                divInfo.innerHTML = `
-                    <strong>Plan gratuito:</strong><br>
-                    ✅ Primer mes sin costo<br>
-                    ✅ Puedes publicar hasta ${CONFIG.maxOfertasGratisPorDia} oferta por día<br>
-                    ⚠️ Después del mes gratis deberás pagar $30.000 mensuales para seguir publicando
-                `;
-            } else {
-                divInfo.style.display = 'block';
-                divInfo.className = 'mensaje error';
-                divInfo.innerHTML = `
-                    <strong>Plan pagado:</strong><br>
-                    💲 Costo: $${CONFIG.precioMembresia} COP por mes<br>
-                    ✅ Publicaciones ilimitadas<br>
-                    ✅ Aparecerás en posiciones destacadas<br>
-                    Paga aquí para activar tu membresía
-                `;
-            }
-        }
-
-        document.getElementById('formComercio').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const boton = document.getElementById('botonEnviar');
-            boton.disabled = true;
-            boton.textContent = 'Enviando...';
-
-            const datosComercio = {
-                numero_wpp: document.getElementById('numeroWpp').value,
-                nombre_comercio: document.getElementById('nombreComercio').value,
-                nombre_contacto: document.getElementById('nombreContacto').value,
-                titulo_oferta: document.getElementById('tituloOferta').value,
-                descripcion: document.getElementById('descripcion').value,
-                categoria: document.getElementById('categoria').value,
-                fecha_vigencia: document.getElementById('fechaVigencia').value,
-                tipo_publicacion: document.getElementById('tipoPublicacion').value,
-                fecha_registro: new Date().toISOString(),
-                estado_aprobacion: 'pendiente',
-                plan_actual: document.getElementById('tipoPublicacion').value === 'gratis' ? 'gratis' : 'pagado'
-            };
-
-            try {
-                const respuesta = await fetch(`${CONFIG.pagos.urlApi}/comercios`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datosComercio)
-                });
-
-                if(respuesta.ok) {
-                    await fetch(`${CONFIG.pagos.urlApi}/registros`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            tipo_accion: 'Nueva oferta de comercio',
-                            numero_responsable: datosComercio.numero_wpp,
-                            detalles: `Oferta: ${datosComercio.titulo_oferta} - Categoría: ${datosComercio.categoria}`,
-                            fecha: new Date().toISOString()
-                        })
-                    });
-
-                    alert('¡Tu oferta se ha enviado correctamente! Espera a que sea aprobada para aparecer en la aplicación.');
-                    document.getElementById('formComercio').reset();
-                } else {
-                    throw new Error('Ocurrió un error al enviar los datos');
-                }
-
-            } catch (error) {
-                alert('Error: ' + error.message);
-            } finally {
-                boton.disabled = false;
-                boton.textContent = 'Enviar oferta para revisión';
-            }
-        });
-
-        function obtenerNumeroWppDelAcceso() {
-            return "+57 300 000 0000";
-        }
-    </script>
-</body>
-                </html>
-    
+        <!-- EJEMPLO 1: PREMIUM -->
+        <div class="tarjeta-comerciante
+            
