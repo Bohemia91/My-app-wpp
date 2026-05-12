@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas y Promociones</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        header { background: #2563eb; color: white; padding: 1rem; text-align: center; }
+        .categorias { display: flex; gap: 1rem; padding: 1rem; overflow-x: auto; }
+        .categoria { padding: 0.8rem 1.5rem; background: #e2e8f0; border-radius: 8px; cursor: pointer; }
+        .categoria.activa { background: #2563eb; color: white; }
+        .lista-ofertas { padding: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .oferta { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+        .boton-wpp { background: #25d366; color: white; border: none; padding: 0.7rem; border-radius: 4px; cursor: pointer; margin-top: 1rem; }
+        .boton-limpiar { background: #ef4444; color: white; border: none; padding: 0.7rem; border-radius: 4px; cursor: pointer; margin: 1rem; }
+        .boton-comerciante { position: fixed; bottom: 2rem; right: 2rem; background: #f59e0b; color: white; padding: 1rem; border-radius: 50%; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ofertas y Promociones</h1>
+        <p>Encuentra las mejores ofertas cerca de ti</p>
+    </header>
+
+    <div style="padding: 1rem; text-align: center;">
+        <h3>Ingresa tu número de WhatsApp</h3>
+        <input type="tel" id="numeroWpp" placeholder="+57 300 000 0000" style="padding: 0.5rem; width: 250px; margin: 1rem;">
+        <br>
+        <label>
+            <input type="checkbox" id="aceptaNotificaciones"> Acepto recibir ofertas y novedades por WhatsApp
+        </label>
+        <br><br>
+        <button onclick="guardarNumero()" style="background: #2563eb; color: white; border: none; padding: 0.8rem 2rem; border-radius: 4px;">
+            Continuar
+        </button>
+    </div>
+
+    <div id="seccionPrincipal" style="display: none;">
+        <div class="categorias">
+            <div class="categoria activa" onclick="filtrarOfertas('todas')">Todas</div>
+            <div class="categoria" onclick="filtrarOfertas('comidas')">Comidas</div>
+            <div class="categoria" onclick="filtrarOfertas('articulos')">Artículos</div>
+        </div>
+
+        <div id="listaOfertas" class="lista-ofertas"></div>
+
+        <button class="boton-limpiar" onclick="limpiarDatos()">
+            Deseo limpiar todas mis preferencias y anuncios
+        </button>
+    </div>
+
+    <button class="boton-comerciante" onclick="irAComerciante()">
+        Soy Comerciante
+    </button>
+
+    <script src="../config/configuracion.js"></script>
+    <script>
+        let numeroCliente = "";
+
+        function guardarNumero() {
+            numeroCliente = document.getElementById('numeroWpp').value;
+            const acepta = document.getElementById('aceptaNotificaciones').checked;
+
+            if(!numeroCliente) {
+                alert("Por favor ingresa tu número de WhatsApp");
+                return;
+            }
+
+            fetch(`${CONFIG.pagos.urlApi}/clientes/${numeroCliente}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    numero_wpp: numeroCliente,
+                    acepta_notificaciones: acepta,
+                    fecha_registro: new Date().toISOString(),
+                    preferencias_categorias: [],
+                    datos_eliminados: false
+                })
+            });
+
+            document.querySelector('div[style*="text-align: center"]').style.display = 'none';
+            document.getElementById('seccionPrincipal').style.display = 'block';
+            cargarOfertas();
+        }
+
+        function cargarOfertas(categoria = 'todas') {
+            fetch(`${CONFIG.pagos.urlApi}/ofertas?estado=aprobado`)
+            .then(res => res.json())
+            .then(ofertas => {
+                const lista = document.getElementById('listaOfertas');
+                lista.innerHTML = '';
+
+                const ofertasFiltradas = categoria === 'todas' 
+                    ? ofertas 
+                    : ofertas.filter(o => o.categoria === categoria);
+
+                ofertasFiltradas.forEach(oferta => {
+                    const elemento = document.createElement('div');
+                    elemento.className = 'oferta';
+                    elemento.innerHTML = `
+                        <h3>${oferta.titulo}</h3>
+                        <p>${oferta.descripcion}</p>
+                        <p><strong>Categoría:</strong> ${oferta.categoria}</p>
+                        <button class="boton-wpp" onclick="enviarWpp('${oferta.titulo}', '${oferta.numero_comercio}')">
+                            Enviarme a WhatsApp ofertas similares
+                        </button>
+                    `;
+                    lista.appendChild(elemento);
+                });
+            });
+        }
+
+        function filtrarOfertas(categoria) {
+            document.querySelectorAll('.categoria').forEach(el => el.classList.remove('activa'));
+            event.target.classList.add('activa');
+            cargarOfertas(categoria);
+        }
+
+        function enviarWpp(tituloOferta, numeroComercio) {
+            const mensaje = encodeURIComponent(`Hola, me gustaría recibir más ofertas similares a: ${tituloOferta}`);
+            window.open(`https://wa.me/${numeroComercio}?text=${mensaje}`, '_blank');
+        }
+
+        function limpiarDatos() {
+            if(confirm("¿Estás seguro de que deseas eliminar todas tus preferencias y datos? Esta acción no se puede deshacer.")) {
+                fetch(`${CONFIG.pagos.urlApi}/clientes/${numeroCliente}`, {
+                    method: 'DELETE'
+                });
+                alert("Tus datos han sido eliminados correctamente");
+                location.reload();
+            }
+        }
+
+        function irAComerciante() {
+            window.location.href = "../comerciante/index.html";
+        }
+
+        window.onload = () => cargarOfertas();
+    </script>
+</body>
+</html>
