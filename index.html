@@ -9,21 +9,58 @@
         body { background-color: #F8FAF5; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 1rem; }
         h1 { color: #0A5F26; margin-bottom: 0.5rem; font-size: 2rem; }
         .subtitulo { color: #D4AF37; font-size: 1.2rem; margin-bottom: 3rem; font-weight: bold; }
-        .boton { display: block; width: 280px; padding: 1.2rem; margin: 1rem 0; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: 0.3s; border: 2px solid #0A5F26; }
-        .boton-clientes { background-color: #0A5F26; color: white; }
-        .boton-clientes:hover { background-color: #084D1E; }
-        .boton-comerciante { background-color: #D4AF37; color: #0A5F26; }
-        .boton-comerciante:hover { background-color: #B8962F; }
-        .boton-admin { background-color: white; color: #0A5F26; margin-top: 3rem; font-size: 0.9rem; padding: 0.8rem; }
+        
+        /* ESTILO DEL NUEVO MENU */
+        .menu-principal {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .boton-menu {
+            display: block;
+            width: 220px;
+            padding: 1.2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            border: 2px solid #0A5F26;
+        }
+        .boton-ofertas { background-color: #0A5F26; color: white; }
+        .boton-ofertas:hover { background-color: #084D1E; }
+        .boton-directorio { background-color: #D4AF37; color: #0A5F26; }
+        .boton-directorio:hover { background-color: #B8962F; }
+        .boton-comerciante { background-color: white; color: #0A5F26; margin-top: 2rem; }
+        .boton-admin { background-color: white; color: #0A5F26; margin-top: 1rem; font-size: 0.9rem; padding: 0.8rem; }
+
+        /* INSIGNIA PREMIUM */
+        .insignia-premium {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            border: 1px solid #D4AF37;
+        }
     </style>
 </head>
 <body>
     <h1>🎉 Bienvenido a Ofertas y Promociones</h1>
     <p class="subtitulo">Santa Rosa de Osos</p>
 
-    <a href="publico/index.html" class="boton boton-clientes">👤 Entrar como Cliente</a>
-    <a href="comerciante/index.html" class="boton boton-comerciante">🏪 Soy Comerciante</a>
+    <!-- MENU ACTUALIZADO CON NUEVA PESTAÑA -->
+    <div class="menu-principal">
+        <a href="publico/index.html" class="boton-menu boton-ofertas">📦 Ver Ofertas</a>
+        <a href="directorio/index.html" class="boton-menu boton-directorio">📁 Directorio</a>
+        <a href="comerciante/index.html" class="boton-menu boton-comerciante">🏪 Soy Comerciante</a>
+    </div>
 
-    <a href="admin/index.html" class="boton boton-admin">⚙️ Panel de Administrador</a>
+    <a href="admin/index.html" class="boton-menu boton-admin">⚙️ Panel de Administrador</a>
 </body>
 </html>
