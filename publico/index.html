@@ -6,38 +6,9 @@
     <title>Ofertas - Santa Rosa de Osos</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        header { background: #0A5F26; color: white; padding: 1.2rem; text-align: center; }
+        header { background: #0A5F26; color: white; padding: 1.5rem; text-align: center; }
         
-        /* ------------------- CATEGORÍAS AJUSTADAS A TU PETICIÓN ------------------- */
-        .categorias { 
-            display: flex; 
-            gap: 0.35rem; /* Espacio muy reducido entre botones */
-            padding: 0.7rem; 
-            background: white; 
-            justify-content: center;
-            flex-wrap: wrap; /* Permite que bajen de línea SOLO si es necesario, pero intentamos que quepan */
-            width: 100%;
-        }
-        .categoria { 
-            padding: 0.5rem 0.7rem; /* Tamaño muy reducido */
-            background: #F0F0F0; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            color: #0A5F26; 
-            font-weight: bold;
-            font-size: 0.72rem; /* Letra muy pequeña para que quepan */
-            white-space: nowrap; /* Que el texto no se parta */
-            flex-shrink: 0; /* Que no se hagan más chicos de lo necesario */
-        }
-        .categoria.activa { 
-            background: #D4AF37; 
-            color: #0A5F26; 
-        }
-        .categoria:hover {
-            transform: scale(1.03);
-        }
-
-        .lista-ofertas { padding: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .lista-ofertas { padding: 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         .oferta { border: 2px solid #E0E0E0; border-radius: 12px; padding: 1.5rem; background: white; }
         .perfil-usuario { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
         .foto-perfil { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #D4AF37; }
@@ -46,8 +17,8 @@
         .precio-normal { text-decoration: line-through; color: #999; font-size: 0.9rem; }
         .precio-final { color: #0A5F26; font-size: 1.3rem; font-weight: bold; margin: 0.5rem 0; }
         .boton-wpp { background: #25D366; color: white; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer; margin-top: 1rem; width: 100%; font-weight: bold; }
-        .boton-limpiar { background: #EF4444; color: white; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer; margin: 1rem; width: calc(100% - 2rem); }
         .boton-volver { position: fixed; top: 1rem; left: 1rem; background: #0A5F26; color: white; padding: 0.7rem 1rem; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .mensaje-inicio { text-align: center; padding: 3rem; color: #666; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -57,122 +28,16 @@
         <p>Santa Rosa de Osos</p>
     </header>
 
-    <!-- AQUÍ ESTÁN LAS CATEGORÍAS CON LOS CAMBIOS FINALES -->
-    <div class="categorias">
-        <div class="categoria activa" onclick="filtrarOfertas('todas')">Todas</div>
-        <div class="categoria" onclick="filtrarOfertas('tecnologia')">Tecnología</div>
-        <div class="categoria" onclick="filtrarOfertas('comida')">Comida</div>
-        <div class="categoria" onclick="filtrarOfertas('mercado')">Mercado</div>
-        <div class="categoria" onclick="filtrarOfertas('transporte')">Transporte</div>
-        <div class="categoria" onclick="filtrarOfertas('salud')">Salud</div>
-        <div class="categoria" onclick="filtrarOfertas('hogar')">Hogar</div>
-        <div class="categoria" onclick="filtrarOfertas('moda')">Moda</div>
-        <div class="categoria" onclick="filtrarOfertas('agricultura')">Agricultura</div>
-        <div class="categoria" onclick="filtrarOfertas('servicios')">Servicios</div>
+    <div class="mensaje-inicio">
+        📢 Las ofertas se irán cargando a medida que los comercios publiquen sus productos<br>
+        <br>
+        <em>¡Pronto verás muchas promociones disponibles!</em>
     </div>
 
     <div id="listaOfertas" class="lista-ofertas">
-        <!-- EJEMPLO 1: MERCADO -->
-        <div class="oferta" data-categoria="mercado">
-            <div class="perfil-usuario">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Colanta_logo.svg/1200px-Colanta_logo.svg.png" alt="Colanta" class="foto-perfil">
-                <div>
-                    <div class="nombre-comercio">Colanta</div>
-                    <div style="font-size: 0.8rem; color: #666;">Productos Lácteos y Alimentos</div>
-                </div>
-            </div>
-            <h3>Tocino Carnudo Colanta</h3>
-            <p>Delicioso tocino de alta calidad, ideal para tus comidas y desayunos.</p>
-            <p class="descuento">🔥 25% de DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $12.800 COP</p>
-            <p class="precio-final">Precio final: $9.600 COP</p>
-            <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
-        </div>
-
-        <!-- EJEMPLO 2: TECNOLOGÍA -->
-        <div class="oferta" data-categoria="tecnologia">
-            <div class="perfil-usuario">
-                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Tecnología" class="foto-perfil">
-                <div>
-                    <div class="nombre-comercio">TecnoCentro Osos</div>
-                    <div style="font-size: 0.8rem; color: #666;">Reparación y Venta de Equipos</div>
-                </div>
-            </div>
-            <h3>Celular con descuento especial</h3>
-            <p>Equipos nuevos y seminuevos con garantía y servicio técnico.</p>
-            <p class="descuento">🔥 15% DE DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $850.000 COP</p>
-            <p class="precio-final">Precio final: $722.500 COP</p>
-            <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
-        </div>
-
-        <!-- EJEMPLO 3: MODA -->
-        <div class="oferta" data-categoria="moda">
-            <div class="perfil-usuario">
-                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Moda" class="foto-perfil">
-                <div>
-                    <div class="nombre-comercio">Tienda Estilo</div>
-                    <div style="font-size: 0.8rem; color: #666;">Ropa y Accesorios</div>
-                </div>
-            </div>
-            <h3>Conjuntos completos para toda la familia</h3>
-            <p>Prendas de buena calidad, cómodas y a buen precio.</p>
-            <p class="descuento">🔥 20% DE DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $60.000 COP</p>
-            <p class="precio-final">Precio final: $48.000 COP</p>
-            <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
-        </div>
-
-        <!-- EJEMPLO 4: SERVICIOS -->
-        <div class="oferta" data-categoria="servicios">
-            <div class="perfil-usuario">
-                <img src="https://cdn-icons-png.flaticon.com/512/1059/1059177.png" alt="Servicios" class="foto-perfil">
-                <div>
-                    <div class="nombre-comercio">Servicios Integrales Osos</div>
-                    <div style="font-size: 0.8rem; color: #666;">Soluciones para el hogar y empresa</div>
-                </div>
-            </div>
-            <h3>Reparaciones y mantenimiento general</h3>
-            <p>Servicios rápidos, seguros y con garantía de calidad.</p>
-            <p class="descuento">🔥 10% DE DESCUENTO 🔥</p>
-            <p class="precio-normal">Precio normal: $30.000 COP</p>
-            <p class="precio-final">Precio final: $27.000 COP</p>
-            <button class="boton-wpp">Enviar mensaje por WhatsApp</button>
-        </div>
+        <!-- Aquí se irán agregando las ofertas que los comercios publiquen -->
     </div>
 
-    <button class="boton-limpiar" onclick="limpiarDatos()">Deseo limpiar mis datos</button>
-
     <script src="../config/configuracion.js"></script>
-    <script>
-        let numeroCliente = "";
-
-        function filtrarOfertas(categoria) {
-            document.querySelectorAll('.categoria').forEach(el => el.classList.remove('activa'));
-            event.target.classList.add('activa');
-            
-            const todas = document.querySelectorAll('.oferta');
-            todas.forEach(oferta => {
-                if(categoria === 'todas' || oferta.dataset.categoria === categoria) {
-                    oferta.style.display = 'block';
-                } else {
-                    oferta.style.display = 'none';
-                }
-            });
-        }
-
-        document.querySelectorAll('.boton-wpp').forEach(boton => {
-            boton.addEventListener('click', function() {
-                const nombreComercio = this.parentElement.querySelector('.nombre-comercio').textContent;
-                const producto = this.parentElement.querySelector('h3').textContent;
-                const mensaje = encodeURIComponent(`Hola ${nombreComercio}, me interesa el producto: ${producto}. ¿Tienen disponibilidad?`);
-                window.open(`https://wa.me/573000000000?text=${mensaje}`, '_blank');
-            });
-        });
-
-        function limpiarDatos() {
-            alert("Tus datos han sido eliminados correctamente");
-        }
-    </script>
 </body>
 </html>
