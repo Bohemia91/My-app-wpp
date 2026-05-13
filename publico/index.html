@@ -8,26 +8,26 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
         header { background: #0A5F26; color: white; padding: 1.2rem; text-align: center; }
         
-        /* CATEGORÍAS: AJUSTADAS PARA CABER TODAS EN UNA SOLA LÍNEA */
+        /* ------------------- CATEGORÍAS AJUSTADAS A TU PETICIÓN ------------------- */
         .categorias { 
             display: flex; 
-            gap: 0.5rem; 
-            padding: 0.8rem; 
+            gap: 0.35rem; /* Espacio muy reducido entre botones */
+            padding: 0.7rem; 
             background: white; 
             justify-content: center;
-            flex-wrap: nowrap; /* Que no se bajen de línea */
-            overflow-x: auto; /* Solo por si acaso en pantallas muy chicas, pero intentamos que quepan */
+            flex-wrap: wrap; /* Permite que bajen de línea SOLO si es necesario, pero intentamos que quepan */
+            width: 100%;
         }
         .categoria { 
-            padding: 0.6rem 0.9rem; 
+            padding: 0.5rem 0.7rem; /* Tamaño muy reducido */
             background: #F0F0F0; 
             border-radius: 6px; 
             cursor: pointer; 
             color: #0A5F26; 
             font-weight: bold;
-            font-size: 0.8rem; /* Tamaño de letra reducido */
+            font-size: 0.72rem; /* Letra muy pequeña para que quepan */
             white-space: nowrap; /* Que el texto no se parta */
-            transition: 0.3s;
+            flex-shrink: 0; /* Que no se hagan más chicos de lo necesario */
         }
         .categoria.activa { 
             background: #D4AF37; 
@@ -57,7 +57,7 @@
         <p>Santa Rosa de Osos</p>
     </header>
 
-    <!-- CATEGORÍAS CON TAMAÑO AJUSTADO -->
+    <!-- AQUÍ ESTÁN LAS CATEGORÍAS CON LOS CAMBIOS FINALES -->
     <div class="categorias">
         <div class="categoria activa" onclick="filtrarOfertas('todas')">Todas</div>
         <div class="categoria" onclick="filtrarOfertas('tecnologia')">Tecnología</div>
