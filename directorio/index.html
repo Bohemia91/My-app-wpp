@@ -9,80 +9,34 @@
         body { background-color: #F8FAF5; }
         .encabezado { background: #0A5F26; color: white; padding: 2rem; text-align: center; }
         .encabezado h1 { margin-bottom: 0.5rem; }
-        .botones-opcion { display: flex; gap: 2rem; justify-content: center; padding: 3rem; flex-wrap: wrap; }
-        .boton-opcion {
-            width: 300px;
-            padding: 2rem;
-            border-radius: 15px;
-            text-decoration: none;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.3rem;
-            transition: 0.3s;
-            border: 3px solid #0A5F26;
+        
+        /* CATEGORÍAS AJUSTADAS PARA VERSE TODAS EN UNA SOLA PANTALLA */
+        .categorias { 
+            display: flex; 
+            gap: 0.35rem; 
+            padding: 0.8rem; 
+            background: white; 
+            justify-content: center;
+            flex-wrap: nowrap;
+            width: 100%;
+            overflow-x: hidden;
         }
-        .boton-comerciantes { background: #D4AF37; color: #0A5F26; }
-        .boton-comerciantes:hover { background: #B8962F; transform: scale(1.05); }
-        .boton-cliente { background: white; color: #0A5F26; }
-        .boton-cliente:hover { background: #E8F5E9; transform: scale(1.05); }
+        .categoria { 
+            padding: 0.5rem 0.7rem; 
+            background: #F0F0F0; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: #0A5F26; 
+            font-weight: bold;
+            font-size: 0.72rem;
+            white-space: nowrap;
+            text-decoration: none;
+            color: inherit;
+        }
+        .categoria:hover {
+            background: #D4AF37;
+        }
 
-        /* ESTILO PARA COMERCIANTES PREMIUM */
-        .tarjeta-comerciante {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .tarjeta-premium {
-            border: 3px solid #D4AF37;
-            background: linear-gradient(to right, #FFFDE7, #FFFFFF);
-        }
-        .cabecera-comerciante {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .foto-comercio {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0A5F26;
-        }
-        .nombre-comercio {
-            font-size: 1.5rem;
-            color: #0A5F26;
-            font-weight: bold;
-        }
-        .categoria-comercio {
-            color: #666;
-            margin-top: 0.3rem;
-        }
-        .insignia-premium {
-            display: inline-block;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #8B4513;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            margin-left: 1rem;
-            border: 1px solid #D4AF37;
-        }
-        .boton-contacto {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.8rem 1.5rem;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        .boton-contacto:hover { background: #128C7E; }
         .boton-volver {
             position: fixed;
             top: 1rem;
@@ -101,13 +55,26 @@
 
     <div class="encabezado">
         <h1>📁 Directorio de Negocios</h1>
-        <p>Encuentra y contacta con todos los comercios de Santa Rosa de Osos</p>
+        <p>Encuentra todos los comercios de Santa Rosa de Osos por categorías</p>
     </div>
 
-    <!-- OPCIONES PRINCIPALES DEL DIRECTORIO -->
-    <div class="botones-opcion">
-        <a href="comerciantes.html" class="boton-opcion boton-comerciantes">🏪 Lista de Comerciantes</a>
-        <a href="cliente.html" class="boton-opcion boton-cliente">👤 Ver como Cliente</a>
+    <!-- CATEGORÍAS AQUÍ, TAL COMO LAS PEDISTE -->
+    <div class="categorias">
+        <a href="categorias.html?cat=tecnologia" class="categoria">Tecnología</a>
+        <a href="categorias.html?cat=comida" class="categoria">Comida</a>
+        <a href="categorias.html?cat=mercado" class="categoria">Mercado</a>
+        <a href="categorias.html?cat=transporte" class="categoria">Transporte</a>
+        <a href="categorias.html?cat=belleza" class="categoria">Belleza y Salud</a>
+        <a href="categorias.html?cat=hogar" class="categoria">Hogar</a>
+        <a href="categorias.html?cat=moda" class="categoria">Moda</a>
+        <a href="categorias.html?cat=agricultura" class="categoria">Agricultura</a>
+        <a href="categorias.html?cat=servicios" class="categoria">Servicios</a>
+    </div>
+
+    <div style="text-align: center; padding: 3rem; color: #666; font-size: 1.1rem;">
+        📢 Los comercios se irán agregando a medida que se registren<br>
+        <br>
+        ✨ Los comercios PREMIUM aparecen primero en cada categoría
     </div>
 </body>
 </html>
