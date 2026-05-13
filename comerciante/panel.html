@@ -130,6 +130,17 @@
         .oculto {
             display: none;
         }
+        .form-publicacion {
+            margin-top: 1rem;
+        }
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -155,5 +166,215 @@
         </div>
         <div class="info-dato">
             <span class="etiqueta">Correo de identificación:</span>
-            <span class="valor" id="datoCorreo"></span
-                                                  
+            <span class="valor" id="datoCorreo"></span>
+        </div>
+    </div>
+
+    <div class="seccion">
+        <h2>Publicaciones</h2>
+        
+        <div id="zonaContador" class="oculto">
+            <p>Tiempo restante para tu próxima publicación:</p>
+            <div id="contadorTiempo" class="contador">00:00:00</div>
+        </div>
+
+        <div id="zonaLimite" class="oculto">
+            <div class="mensaje advertencia">
+                Has alcanzado el límite de 3 publicaciones diarias. Espera a que pase el tiempo para publicar de nuevo.
+            </div>
+        </div>
+
+        <button id="btnPublicar" class="boton boton-principal" onclick="mostrarFormulario()">
+            ➕ Crear Nueva Publicación
+        </button>
+
+        <div id="formPublicacion" class="form-publicacion oculto">
+            <h3>Nueva Oferta</h3>
+            <textarea id="textoPublicacion" placeholder="Escribe aquí tu oferta, producto o promoción..."></textarea>
+            <button class="boton boton-principal" onclick="guardarPublicacion()">Guardar y Publicar</button>
+            <button class="boton" onclick="ocultarFormulario()">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="seccion">
+        <h2>Mejora tu cuenta</h2>
+        <p>Si quieres tener más beneficios, puedes volverte Premium en cualquier momento:</p>
+        <ul style="margin: 1rem 0 1rem 20px; color: #555;">
+            <li>Sin tiempos de espera entre publicaciones</li>
+            <li>Hasta 3 publicaciones activas al mismo tiempo</li>
+            <li>Apareces destacado en el Directorio</li>
+            <li>Mayor visibilidad para tus clientes</li>
+        </ul>
+        <button id="btnHacersePremium" class="boton boton-premium" onclick="cambiarAPremium()">
+            ✨ Pasarme a Plan Premium
+        </button>
+    </div>
+
+    <script>
+        // Cargar datos del comerciante
+        let datosUsuario = {};
+        let tiempoRestante = 0;
+        let intervalo = null;
+
+        function cargarDatos() {
+            const sesion = localStorage.getItem('sesionComerciante');
+            if(!sesion) {
+                alert('No has iniciado sesión');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            datosUsuario = JSON.parse(sesion);
+            
+            // Mostrar datos en pantalla
+            document.getElementById('nombreComercioTexto').textContent = datosUsuario.nombreComercio;
+            document.getElementById('datoNombreComercio').textContent = datosUsuario.nombreComercio;
+            document.getElementById('datoPropietario').textContent = datosUsuario.propietario;
+            document.getElementById('datoWhatsapp').textContent = datosUsuario.whatsapp;
+            document.getElementById('datoCorreo').textContent = datosUsuario.correo;
+
+            // Mostrar tipo de plan
+            const planTexto = document.getElementById('tipoPlanTexto');
+            if(datosUsuario.plan === 'premium') {
+                planTexto.textContent = 'Plan Premium ✨';
+                planTexto.classList.remove('plan-basico');
+                planTexto.classList.add('plan-premium');
+                document.getElementById('btnHacersePremium').classList.add('oculto');
+            } else {
+                planTexto.textContent = 'Plan Básico';
+                verificarTiempoEspera();
+            }
+        }
+
+        function verificarTiempoEspera() {
+            if(datosUsuario.plan === 'premium') return;
+
+            const ultimaPub = datosUsuario.tiempoUltimaPublicacion;
+            if(!ultimaPub) {
+                // Nunca ha publicado, puede hacerlo
+                document.getElementById('btnPublicar').disabled = false;
+                return;
+            }
+
+            const ahora = new Date().getTime();
+            const ultimaFecha = new Date(ultimaPub).getTime();
+            const diferencia = ahora - ultimaFecha;
+            const veinteHorasMs = 20 * 60 * 60 * 1000; // 20 horas en milisegundos
+
+            if(diferencia < veinteHorasMs) {
+                // Todavía tiene que esperar
+                tiempoRestante = veinteHorasMs - diferencia;
+                mostrarContador();
+                document.getElementById('zonaContador').classList.remove('oculto');
+                document.getElementById('btnPublicar').classList.add('boton-deshabilitado');
+                document.getElementById('btnPublicar').disabled = true;
+                
+                // Iniciar cuenta regresiva
+                if(intervalo) clearInterval(intervalo);
+                intervalo = setInterval(actualizarContador, 1000);
+            } else {
+                // Ya puede publicar
+                document.getElementById('btnPublicar').disabled = false;
+            }
+        }
+
+        function mostrarContador() {
+            const horas = Math.floor(tiempoRestante / (1000 * 60 * 60));
+            const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((tiempoRestante % (1000 * 60)) / 1000);
+            
+            document.getElementById('contadorTiempo').textContent = 
+                `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+        }
+
+        function actualizarContador() {
+            if(tiempoRestante <= 0) {
+                clearInterval(intervalo);
+                document.getElementById('zonaContador').classList.add('oculto');
+                document.getElementById('btnPublicar').classList.remove('boton-deshabilitado');
+                document.getElementById('btnPublicar').disabled = false;
+                return;
+            }
+            tiempoRestante -= 1000;
+            mostrarContador();
+        }
+
+        function mostrarFormulario() {
+            document.getElementById('formPublicacion').classList.remove('oculto');
+        }
+
+        function ocultarFormulario() {
+            document.getElementById('formPublicacion').classList.add('oculto');
+        }
+
+        function guardarPublicacion() {
+            const texto = document.getElementById('textoPublicacion').value;
+            if(!texto) {
+                alert('Escribe algo para publicar');
+                return;
+            }
+
+            // Guardar publicación (aquí se conectaría con la lista de ofertas)
+            const nuevaPublicacion = {
+                comercio: datosUsuario.nombreComercio,
+                whatsapp: datosUsuario.whatsapp,
+                texto: texto,
+                fecha: new Date().toISOString(),
+                categoria: 'general'
+            };
+
+            // Guardar en la lista general de ofertas
+            let ofertas = JSON.parse(localStorage.getItem('ofertasPublicadas')) || [];
+            ofertas.unshift(nuevaPublicacion); // Agregar al principio
+            localStorage.setItem('ofertasPublicadas', JSON.stringify(ofertas));
+
+            // Actualizar datos del usuario
+            datosUsuario.cantidadPublicaciones += 1;
+            datosUsuario.tiempoUltimaPublicacion = new Date().toISOString();
+            
+            // Actualizar en almacenamiento
+            localStorage.setItem('sesionComerciante', JSON.stringify(datosUsuario));
+            
+            // Actualizar lista completa de comercios
+            let comercios = JSON.parse(localStorage.getItem('comerciosRegistrados')) || [];
+            const index = comercios.findIndex(c => c.correo === datosUsuario.correo);
+            if(index !== -1) {
+                comercios[index] = datosUsuario;
+                localStorage.setItem('comerciosRegistrados', JSON.stringify(comercios));
+            }
+
+            alert('¡Publicación creada exitosamente!');
+            ocultarFormulario();
+            document.getElementById('textoPublicacion').value = '';
+            
+            // Recargar para mostrar el contador
+            location.reload();
+        }
+
+        function cambiarAPremium() {
+            if(confirm('¿Seguro que quieres pasarte al Plan Premium?')) {
+                datosUsuario.plan = 'premium';
+                datosUsuario.limiteAnuncios = 3;
+                
+                // Guardar cambios
+                localStorage.setItem('sesionComerciante', JSON.stringify(datosUsuario));
+                
+                // Actualizar lista completa
+                let comercios = JSON.parse(localStorage.getItem('comerciosRegistrados')) || [];
+                const index = comercios.findIndex(c => c.correo === datosUsuario.correo);
+                if(index !== -1) {
+                    comercios[index].plan = 'premium';
+                    comercios[index].limiteAnuncios = 3;
+                    localStorage.setItem('comerciosRegistrados', JSON.stringify(comercios));
+                }
+
+                alert('¡Felicidades! Ahora eres Comerciante Premium ✨');
+                location.reload();
+            }
+        }
+
+        // Cargar todo al abrir la página
+        window.onload = cargarDatos;
+    </script>
+</body>
+</html>
