@@ -3,137 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comerciantes - Directorio</title>
+    <title>Registro como Comerciante</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #F8FAF5; }
-        .encabezado { background: #0A5F26; color: white; padding: 2rem; text-align: center; }
-        .boton-volver {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            background: #0A5F26;
-            color: white;
-            padding: 0.7rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
-
-        /* BOTON DE PREMIUM */
-        .seccion-premium {
+        body {
+            background-color: #F8FAF5;
+            padding: 2rem 1rem;
             max-width: 700px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
-            border: 2px solid #D4AF37;
-            border-radius: 15px;
+            margin: 0 auto;
+        }
+        .encabezado {
             text-align: center;
+            color: #0A5F26;
+            margin-bottom: 2rem;
         }
-        .titulo-premium { color: #8B4513; font-size: 1.5rem; margin-bottom: 1rem; }
-        .lista-beneficios { text-align: left; margin: 1.5rem 0; line-height: 1.8; }
-        .lista-beneficios li { margin: 0.5rem 0; color: #333; }
-        .boton-adquirir {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #8B4513;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            border: 2px solid #D4AF37;
-            transition: 0.3s;
+        .encabezado h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
-        .boton-adquirir:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
-
-        /* ESTILO DE TARJETAS */
-        .contenedor-tarjetas { padding: 2rem; max-width: 1200px; margin: 0 auto; }
-        .titulo-seccion { text-align: center; color: #0A5F26; margin-bottom: 2rem; font-size: 1.5rem; }
-        
-        .tarjeta-comerciante {
+        .formulario {
             background: white;
+            padding: 2rem;
             border-radius: 12px;
-            padding: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .grupo-campo {
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        .tarjeta-premium {
-            border: 3px solid #D4AF37;
-            background: linear-gradient(to right, #FFFDE7, #FFFFFF);
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
         }
-        .cabecera {
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #0A5F26;
+        }
+        .opciones-plan {
             display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+            gap: 1rem;
+            margin-top: 0.5rem;
             flex-wrap: wrap;
         }
-        .foto {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0A5F26;
-        }
-        .nombre {
-            font-size: 1.4rem;
-            color: #0A5F26;
-            font-weight: bold;
-        }
-        .categoria { color: #666; margin: 0.3rem 0; }
-        .insignia {
-            display: inline-block;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #8B4513;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            margin-left: 1rem;
-            border: 1px solid #D4AF37;
-        }
-        .descripcion { color: #444; margin: 1rem 0; line-height: 1.6; }
-        .boton-wpp {
-            display: inline-block;
-            padding: 0.7rem 1.5rem;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
+        .opcion-plan {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border: 2px solid #ddd;
             border-radius: 8px;
-            font-weight: bold;
-            margin-top: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .boton-wpp:hover { background: #128C7E; }
+        .opcion-plan.seleccionado {
+            border-color: #0A5F26;
+            background-color: #F0F8F2;
+        }
+        .opcion-plan h4 {
+            color: #0A5F26;
+            margin-bottom: 0.5rem;
+        }
+        .opcion-plan.premium {
+            border-color: #D4AF37;
+            background-color: #FFFDF0;
+        }
+        .opcion-plan.premium.seleccionado {
+            border-color: #D4AF37;
+            background-color: #FFF9CC;
+        }
+        .texto-premium {
+            color: #B8860B;
+            font-size: 0.9rem;
+        }
+        .boton-enviar {
+            width: 100%;
+            padding: 1rem;
+            background-color: #0A5F26;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .boton-enviar:hover {
+            background-color: #084D1E;
+        }
+        .boton-volver {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #0A5F26;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .checkbox-texto {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
-    <a href="index.html" class="boton-volver">← Volver al Directorio</a>
+    <a href="../index.html" class="boton-volver">← Volver al inicio</a>
 
     <div class="encabezado">
-        <h1>🏪 Lista de Comerciantes</h1>
-        <p>Encuentra todo lo que necesitas en un solo lugar</p>
+        <h1>Registro como Comerciante</h1>
+        <p>Datos necesarios para crear tu cuenta</p>
     </div>
 
-    <!-- SECCION DE MEMBRESIA PREMIUM -->
-    <div class="seccion-premium">
-        <h2 class="titulo-premium">✨ Conviértete en Comerciante Premium ✨</h2>
-        <p>Destaca tu negocio y alcanza más clientes</p>
-        
-        <ul class="lista-beneficios">
-            <li>✅ Te conviertes en un negocio destacado en todas las listas</li>
-            <li>✅ Puedes hacer hasta 3 publicaciones promocionales cada día</li>
-            <li>✅ Tu negocio aparecerá en la lista especial dentro del directorio</li>
-            <li>✅ Llegas a más personas y aumentas tus ventas</li>
-        </ul>
+    <form class="formulario" id="formRegistro">
+        <div class="grupo-campo">
+            <label for="nombreComercio">Nombre del comercio *</label>
+            <input type="text" id="nombreComercio" required placeholder="Ej: Tienda de Ropa El Buen Estilo">
+        </div>
 
-        <a href="#" class="boton-adquirir">Adquirir Membresía Premium</a>
-    </div>
+        <div class="grupo-campo">
+            <label for="propietario">Nombre del propietario *</label>
+            <input type="text" id="propietario" required placeholder="Ej: María González">
+        </div>
 
-    <!-- EJEMPLOS DE COMERCIANTES PREMIUM Y NORMALES -->
-    <div class="contenedor-tarjetas">
-        <h2 class="titulo-seccion">📋 Todos los Negocios</h2>
+        <div class="grupo-campo">
+            <label for="whatsapp">Número de WhatsApp *</label>
+            <input type="tel" id="whatsapp" required placeholder="Ej: 3101234567">
+        </div>
 
-        <!-- EJEMPLO 1: PREMIUM -->
-        <div class="tarjeta-comerciante
-            
+        <div class="grupo-campo">
+            <label for="correo">Correo electrónico * (será tu identificación)</label>
+            <input type="email" id="correo" required placeholder="Ej: tuemail@ejemplo.com">
+        </div>
+
+        <div class="grupo-campo">
+            <label>Tipo de cuenta *</label>
+            <div class="opciones-plan">
+                <div class="opcion-plan" id="planBasico" onclick="seleccionarPlan('basico')">
+                    <h4>Cuenta Básica</h4>
+                    <p style="color:#666; font-size:0.9rem">Gratis</p>
+                </div>
+                <div class="opcion-plan premium" id="planPremium" onclick="seleccionarPlan('premium')">
+                    <h4>Cuenta Premium</h4>
+                    <p class="texto-premium">Acceso completo y beneficios</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grupo-campo">
+            <label>Autorización de tratamiento de datos *</label>
+            <div class="checkbox-texto">
+                <input type="checkbox" id="autorizacion" required>
+                <label for="autorizacion" style="display: inline; font-weight: normal;">
+                    Acepto que mis datos personales sean tratados de acuerdo con la Ley 1581 de 2012 y demás normas aplicables, con la finalidad de gestionar mi registro, publicar mis productos y ofrecer los servicios de la plataforma. Conozco que puedo ejercer mis derechos de acceso, rectificación, cancelación y oposición en cualquier momento.
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="boton-enviar">Crear cuenta</button>
+    </form>
+
+    <script src="../config/configuracion.js"></script>
+    <script>
+        let planSeleccionado = 'basico';
+
+        function seleccionarPlan(tipo) {
+            // Quitar selección de todos
+            document.querySelectorAll('.opcion-plan').forEach(el => {
+                el.classList.remove('seleccionado');
+            });
+
+            // Marcar el seleccionado
+            if(tipo === 'basico') {
+                document.getElementById('planBasico').classList.add('seleccionado');
+                planSeleccionado = 'basico';
+            } else {
+                document.getElementById('planPremium').classList.add('seleccionado');
+                planSeleccionado = 'premium';
+            }
+        }
+
+        // Seleccionar básico por defecto
+        seleccionarPlan('basico');
+
+        document.getElementById('formRegistro').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Obtener datos
+            const datosComercio = {
+                nombreComercio: document.getElementById('nombreComercio').value,
+                propietario: document.getElementById('propietario').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                correo: document.getElementById('correo').value,
+                plan: planSeleccionado,
+                fechaRegistro: new Date().toISOString(),
+                limiteAnuncios: planSeleccionado === 'premium' ? 3 : 1,
+                tiempoUltimaPublicacion: null,
+                cantidadPublicaciones: 0
+            };
+
+            // Guardar en almacenamiento local
+            let comercios = JSON.parse(localStorage.getItem('comerciosRegistrados')) || [];
+            // Verificar que el correo no esté registrado ya
+            const existe = comercios.find(c => c.correo === datosComercio.correo);
+            if(existe) {
+                alert('Ya existe un comercio registrado con este correo electrónico');
+                return;
+            }
+
+            comercios.push(datosComercio);
+            localStorage.setItem('comerciosRegistrados', JSON.stringify(comercios));
+
+            // Guardar sesión del comerciante
+            localStorage.setItem('sesionComerciante', JSON.stringify(datosComercio));
+
+            // Redirigir al panel
+            window.location.href = 'panel.html';
+        });
+    </script>
+</body>
+</html>
